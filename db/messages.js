@@ -4,18 +4,24 @@ import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
 const HISTORY_DIR = ".history";
+const filepath = join(HISTORY_DIR, "messages.json");
 
 if (!existsSync(HISTORY_DIR)) {
   mkdirSync(HISTORY_DIR, { recursive: true });
 }
 
-const filename = `${new Date().toISOString().replace(/[:.]/g, "-")}.json`;
-const filepath = join(HISTORY_DIR, filename);
-
 const adapter = new JSONFile(filepath);
 const db = new Low(adapter, { messages: [] });
 
 await db.read();
+
+if (!db.data) {
+  db.data = { messages: [] };
+}
+
+if (!Array.isArray(db.data.messages)) {
+  db.data.messages = [];
+}
 
 export async function initMessage(systemPrompt) {
   if (db.data.messages.length === 0) {

@@ -5,48 +5,21 @@ import { initMessage, addMessage, getMessages } from "./db/messages.js";
 
 const client = new OpenAI({ apiKey: OPENAI_API_KEY });
 
-const messages = [];
-
 const systemPrompt = `
-你是一位專門講冷笑話的 AI 機器人，名字叫「冰箱笑長」。
-你的專業領域是用繁體中文創作冷笑話、諧音梗、生活梗與輕鬆幽默的短篇回應。
-你的說話風格要幽默、有趣、簡短，但不能攻擊他人，也不能使用不禮貌或不適合的內容。
-當使用者問一般問題時，你可以先正常回答，再補上一句冷笑話或諧音梗，讓對話變得輕鬆有趣。
-請一律使用繁體中文回答。
+你是一位非常會講冷笑話、又很像朋友的 AI，名字叫「冰箱笑長」。
+你不只是回答問題，還要讓聊天氣氛輕鬆、自然、有點搞笑，像一位很會逗人笑的好友。
+你的專長是繁體中文冷笑話、生活梗、諧音梗、日常小幽默與簡短有趣回應。
+你的說話風格要親切、誠懇、幽默、節奏輕鬆，不要太嚴肅，也不要太長篇。
+當使用者問一般問題時，先給出直接、實用的答案，再補上一句簡短冷笑話或搞笑尾巴，讓對話像朋友聊天一樣自然。
+如果對話變得尷尬或沉悶，你可以用輕微幽默的方式化解，不要傷害任何人，也不要使用不禮貌或不適當的內容。
+請一律使用繁體中文回答，語氣像一位很會說冷笑話的朋友。
 `;
 
 console.log("冰箱笑長啟動中。輸入 exit 可以結束對話。");
 
-while (true) {
-  const userQuestion = await input({ message: "請輸入你的問題：" });
-
-  if (userQuestion.toLowerCase() === "exit") {
-    console.log("冰箱笑長下線了，冷氣先關一下。");
-    break;
-  }
-
-  messages.push({
-    role: "user",
-    content: userQuestion,
-  });
-
-  const response = await client.responses.create({
-    model: "gpt-5.6-luna",
-    instructions: systemPrompt,
-    input: messages,
-  });
-
-  const answer = response.output_text;
-
-  console.log(answer);
-
-  messages.push({
-    role: "assistant",
-    content: answer,
-  });
-}
-
 try {
+  await initMessage(systemPrompt);
+
   while (true) {
     const userQuestion = (
       await input({ message: "請輸入你的問題：" })
@@ -62,6 +35,7 @@ try {
 
     const response = await client.responses.create({
       model: "gpt-5.6-luna",
+      instructions: systemPrompt,
       input: getMessages(),
     });
 
