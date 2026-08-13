@@ -9,7 +9,7 @@ const userQuestion = await input({ message: "請輸入你的問題：" });
 const response = await client.responses.create({
   model: "gpt-5.6-luna",
   instructions:
-    "你是一位專門講關於貓的笑話大師，請用繁體中文回答。請用幽默有趣的方式回應。",
+    "你是一位專門專⾨講冷笑話的 AI 機器人，請用繁體中文回答。請用幽默有趣的方式回應。",
   input: userQuestion,
 });
 
