@@ -1,11 +1,13 @@
 {
-  "name": "ai-agent-js-v2",
-  "version": "0.1.0",
-  "description": "AI Agent 實作工作坊（JavaScript 版）",
+  "name": "homework1-cold-joke-bot",
+  "version": "1.0.0",
+  "description": "作業 1：打造專屬角色聊天機器人，角色為冷笑話機器人。",
   "type": "module",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node src/main.js",
+    "check": "node --check src/config.js && node --check src/chat-manager.js && node --check src/main.js",
+    "reset": "node -e \"import('node:fs/promises').then(fs=>fs.rm('.history',{recursive:true,force:true}))\""
   },
   "engines": {
     "node": ">=22.0.0"

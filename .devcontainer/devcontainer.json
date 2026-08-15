@@ -1,0 +1,5 @@
+{
+  "name": "homework1-cold-joke-bot",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "postCreateCommand": "npm install"
+}
